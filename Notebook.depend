@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1512860958 source:d:\coding\c\notebook\main.c
+	<dirent.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+	"linkedList.h"
+	<stdlib.h>
+
+1512795035 source:d:\coding\c\notebook\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1512790403 d:\coding\c\notebook\linkedlist.h
+
