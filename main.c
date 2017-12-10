@@ -1,6 +1,10 @@
 /*
- * C Program that manages a directory of notes.
- * Allows for opening and reading specific notes.
+ *
+ * Mathew McHugh
+ * C Program that manages a directory of notes
+ * Allows for opening and reading specific notes
+ * As well as the creation of new notes
+ *
  */
 #include <dirent.h>
 #include <stdio.h>
@@ -120,24 +124,31 @@ void print_file(){
 
 void create_Note(){
     time_t mytime;
-    int i;
     char *token;
     char *totalTime;
     FILE *fp;
     mytime = time(NULL);
     char *filename = (char*)malloc(sizeof(char)*30);
-    totalTime = ctime(&mytime);
-    strtok(totalTime, " ");
-    token = strtok(NULL, " ");
-    strcpy(filename, token);
-    strcat(filename, "_");
-    token = strtok(NULL, " ");
-    strcat(filename , token);
-    strcat(filename, "_");
-    token = strtok(NULL, " ");
-    token = strtok(NULL, " ");
-    strncat(filename, token, 4);
-    strcat(filename, FILE_EXTENSION);
+    printf("Type a custom Note name, or press <enter> for the default name: ");
+    fgets(filename, 30, stdin);
+    if(!strcmp(filename, "\n")){
+        totalTime = ctime(&mytime);
+        strtok(totalTime, " ");
+        token = strtok(NULL, " ");
+        strcpy(filename, token);
+        strcat(filename, "_");
+        token = strtok(NULL, " ");
+        strcat(filename , token);
+        strcat(filename, "_");
+        token = strtok(NULL, " ");
+        token = strtok(NULL, " ");
+        strncat(filename, token, 4);
+        strcat(filename, FILE_EXTENSION);
+    }
+    else{
+        filename[strlen(filename)-1] = 0;
+        strcat(filename, FILE_EXTENSION);
+    }
     fp = fopen(filename, "w");
     if(fp == NULL)
         printf("Failed to create file.\n");

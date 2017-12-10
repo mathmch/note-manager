@@ -14,3 +14,18 @@
 
 1512790403 d:\coding\c\notebook\linkedlist.h
 
+1512939846 source:c:\users\mathm\desktop\coding\c\note-manager\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1512940679 source:c:\users\mathm\desktop\coding\c\note-manager\main.c
+	<dirent.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+	"linkedList.h"
+	<stdlib.h>
+
+1512939846 c:\users\mathm\desktop\coding\c\note-manager\linkedlist.h
+
