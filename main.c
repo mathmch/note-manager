@@ -22,6 +22,7 @@ void execute_action(char choice);
 struct Node *create_list();
 void print_file();
 void create_Note();
+void delete_Note();
 char *make_filename();
 
 
@@ -29,17 +30,16 @@ int main(void)
 {
     int choice;
     printf(" -----   Welcomes to the Note Record System   -----\n\n");
-    printf("What would you like to do today? \n     1: Create a new Note\n     2: View an existing Note\n     3: Delete an old Note\n     4: Exit\n\n");
-    choice = promp_user();
-    while (choice != EXIT_VAL){
-        execute_action(choice);
+    do{
         choice = promp_user();
-    }
+        execute_action(choice);
+    }while (choice != EXIT_VAL);
     return(0);
 }
 
 char promp_user(){
     char choice;
+    printf("Options: \n     1: Create a new Note\n     2: View an existing Note\n     3: Delete an old Note\n     4: Exit\n\n");
     printf("Enter the number of your selection: ");
     scanf(" %c", &choice);
     return choice;
@@ -50,17 +50,21 @@ void execute_action(char choice){
     struct Node *head = NULL;
     char filename[MAX_NAME_LENGTH];
     fgets(filename, MAX_NAME_LENGTH, stdin);
+    printf("\n");
+    head = create_list();
     switch(choice){
         case '1':
             create_Note();
             break;
         case '2':                       /* conditionally complete */
-            head = create_list();
             printList(head);
             print_file();
             break;
         case '3':
-            //delete_Note();
+            printList(head);
+            delete_Note();
+            break;
+        case '4':
             break;
         default:
             printf("Invalid option: Enter a number 1-4\n");
@@ -128,9 +132,9 @@ void create_Note(){
     char *totalTime;
     FILE *fp;
     mytime = time(NULL);
-    char *filename = (char*)malloc(sizeof(char)*30);
+    char *filename = (char*)malloc(sizeof(char)*MAX_NAME_LENGTH);
     printf("Type a custom Note name, or press <enter> for the default name: ");
-    fgets(filename, 30, stdin);
+    fgets(filename, MAX_NAME_LENGTH, stdin);
     if(!strcmp(filename, "\n")){
         totalTime = ctime(&mytime);
         strtok(totalTime, " ");
@@ -155,5 +159,17 @@ void create_Note(){
     else
         printf("File %s successfully created.\n", filename);
     fclose(fp);
+}
+
+void delete_Note(){
+    char filename[MAX_NAME_LENGTH];
+    printf("Enter the name without extension of the Note you would like to delete: ");
+    fgets(filename, MAX_NAME_LENGTH, stdin);
+    filename[strlen(filename)-1] = 0;
+    strcat(filename, FILE_EXTENSION);
+    if(remove(filename) == 0)
+        printf("File %s successfully deleted.\n", filename);
+    else
+        printf("Could not delete file %s.\n", filename);
 }
 
