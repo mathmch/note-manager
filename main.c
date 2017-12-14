@@ -13,48 +13,52 @@
 #include "linkedList.h"
 #include <stdlib.h>
 
-#define EXIT_VAL '4'
+#define EXIT_VAL '5'
 #define BUFFER_SIZE 255
+#define MAX_USER_NAME_LENGTH 20
 #define FILE_EXTENSION ".txt"
 
+
 char promp_user();
-void execute_action(char choice);
+void execute_action(char choice, char* user);
 struct Node *create_list();
 void print_file();
-void create_Note();
+void create_Note(char *user);
 void delete_Note();
 char *make_filename();
-
+void populate_Note(FILE* fp, char *filename, char* author, char *time);
+void edit_Note();
 
 int main(void)
 {
     int choice;
+    char user[MAX_USER_NAME_LENGTH];
     printf(" -----   Welcomes to the Note Record System   -----\n\n");
+    printf("Enter your username: ");
+    scanf( "%s", user);
     do{
         choice = promp_user();
-        execute_action(choice);
+        execute_action(choice, user);
     }while (choice != EXIT_VAL);
     return(0);
 }
 
 char promp_user(){
     char choice;
-    printf("Options: \n     1: Create a new Note\n     2: View an existing Note\n     3: Delete an old Note\n     4: Exit\n\n");
+    printf("Options: \n     1: Create a new Note\n     2: View an existing Note\n     3: Delete an old Note\n     4: Edit an existing Note\n     5: Exit\n\n");
     printf("Enter the number of your selection: ");
     scanf(" %c", &choice);
     return choice;
 }
 
 /* carries out the action that the user requests */
-void execute_action(char choice){
+void execute_action(char choice, char *user){
     struct Node *head = NULL;
-    char filename[MAX_NAME_LENGTH];
-    fgets(filename, MAX_NAME_LENGTH, stdin);
     printf("\n");
     head = create_list();
     switch(choice){
         case '1':
-            create_Note();
+            create_Note(user);
             break;
         case '2':                       /* conditionally complete */
             printList(head);
@@ -65,9 +69,13 @@ void execute_action(char choice){
             delete_Note();
             break;
         case '4':
+            printList(head);
+            edit_Note();
+            break;
+        case EXIT_VAL:
             break;
         default:
-            printf("Invalid option: Enter a number 1-4\n");
+            printf("Invalid option: Enter a number 1-5\n");
             break;
 
     }
@@ -108,25 +116,18 @@ void print_file(){
         strcat(filename, FILE_EXTENSION);
         fp = fopen(filename, "r");
     }
+    printf("-------------------------------------------------------------------------\n");
     while(fgets(line, BUFFER_SIZE, fp) != NULL)
         printf("%s", line);
     if(feof(fp))
-        printf("\n");
+        printf("\n-------------------------------------------------------------------------\n");
     else
         printf("\nError\n");
     fclose(fp);
 }
 
-/*void create_Note(){
-    const char *filename;
-    FILE *fp;
-    filename = make_filename();
-    strcat(filename, FILE_EXTENSION);
-    fp = fopen(filename, "w");
-    fclose(fp);
-}*/
 
-void create_Note(){
+void create_Note(char *user){
     time_t mytime;
     char *token;
     char *totalTime;
@@ -156,9 +157,15 @@ void create_Note(){
     fp = fopen(filename, "w");
     if(fp == NULL)
         printf("Failed to create file.\n");
-    else
+    else{
+        populate_Note(fp, filename, user, ctime(&mytime));
         printf("File %s successfully created.\n", filename);
+    }
     fclose(fp);
+}
+
+void populate_Note(FILE* fp, char *filename, char* author, char *time){
+    fprintf(fp,"Title: %s\nAuthor: %s\nCreated: %s\nBody:", filename, author, time);
 }
 
 void delete_Note(){
@@ -171,5 +178,28 @@ void delete_Note(){
         printf("File %s successfully deleted.\n", filename);
     else
         printf("Could not delete file %s.\n", filename);
+}
+
+//non functional, problem with newline in buffer
+void edit_Note(){
+    char filename[MAX_NAME_LENGTH];
+    char command[MAX_NAME_LENGTH + 5];
+    int ch;
+    FILE *fp = NULL;
+    while ((ch = getchar()) != '\n' && ch != EOF){}
+    do{
+        printf("Enter the name without extension of the Note you would like to edit or quit to exit: ");
+        fgets(filename, MAX_NAME_LENGTH, stdin);
+        if(!strcmp(filename, "quit\n"))
+            return;
+        filename[strlen(filename)-1] = 0;
+        strcat(filename, FILE_EXTENSION);
+        fp = fopen(filename, "r");
+    }while(fp == NULL);
+    strcpy(command, "gvim ");
+    strcat(command, filename);
+    system(command);
+
+
 }
 
