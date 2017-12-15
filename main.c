@@ -11,6 +11,7 @@
 #include <string.h>
 #include <time.h>
 #include "linkedList.h"
+#include "util.h"
 #include <stdlib.h>
 
 #define EXIT_VAL '5'
@@ -35,7 +36,7 @@ int main(void)
     char user[MAX_USER_NAME_LENGTH];
     printf(" -----   Welcomes to the Note Record System   -----\n\n");
     printf("Enter your username: ");
-    scanf( "%s", user);
+    fgets(user, MAX_USER_NAME_LENGTH, stdin);
     do{
         choice = promp_user();
         execute_action(choice, user);
@@ -44,11 +45,11 @@ int main(void)
 }
 
 char promp_user(){
-    char choice;
+    char choice[2];
     printf("Options: \n     1: Create a new Note\n     2: View an existing Note\n     3: Delete an old Note\n     4: Edit an existing Note\n     5: Exit\n\n");
     printf("Enter the number of your selection: ");
-    scanf(" %c", &choice);
-    return choice;
+    fgets(choice, 3, stdin);
+    return choice[0];
 }
 
 /* carries out the action that the user requests */
@@ -107,13 +108,13 @@ void print_file(){
     char line[BUFFER_SIZE];
     FILE *fp;
     printf("Type the full name without extension of the Note you would like to view: ");
-    scanf("%s", filename);
-    strcat(filename, FILE_EXTENSION);
+    fgets(filename, MAX_NAME_LENGTH, stdin);
+    strcpy(filename, string_to_filename(filename));
     fp = fopen(filename, "r");
     while(fp == NULL){
         printf("Enter a valid filename: ");
-        scanf("%s", filename);
-        strcat(filename, FILE_EXTENSION);
+        fgets(filename, MAX_NAME_LENGTH, stdin);
+        strcpy(filename, string_to_filename(filename));
         fp = fopen(filename, "r");
     }
     printf("-------------------------------------------------------------------------\n");
@@ -129,7 +130,6 @@ void print_file(){
 
 void create_Note(char *user){
     time_t mytime;
-    char *token;
     char *totalTime;
     FILE *fp;
     mytime = time(NULL);
@@ -138,21 +138,10 @@ void create_Note(char *user){
     fgets(filename, MAX_NAME_LENGTH, stdin);
     if(!strcmp(filename, "\n")){
         totalTime = ctime(&mytime);
-        strtok(totalTime, " ");
-        token = strtok(NULL, " ");
-        strcpy(filename, token);
-        strcat(filename, "_");
-        token = strtok(NULL, " ");
-        strcat(filename , token);
-        strcat(filename, "_");
-        token = strtok(NULL, " ");
-        token = strtok(NULL, " ");
-        strncat(filename, token, 4);
-        strcat(filename, FILE_EXTENSION);
+        strcat(filename, parse_time(filename, totalTime));
     }
     else{
-        filename[strlen(filename)-1] = 0;
-        strcat(filename, FILE_EXTENSION);
+        strcpy(filename, string_to_filename(filename));
     }
     fp = fopen(filename, "w");
     if(fp == NULL)
@@ -165,22 +154,21 @@ void create_Note(char *user){
 }
 
 void populate_Note(FILE* fp, char *filename, char* author, char *time){
-    fprintf(fp,"Title: %s\nAuthor: %s\nCreated: %s\nBody:", filename, author, time);
+    fprintf(fp,"Title: %s\nAuthor: %sCreated: %s\nBody:", filename, author, time);
 }
 
 void delete_Note(){
     char filename[MAX_NAME_LENGTH];
     printf("Enter the name without extension of the Note you would like to delete: ");
     fgets(filename, MAX_NAME_LENGTH, stdin);
-    filename[strlen(filename)-1] = 0;
-    strcat(filename, FILE_EXTENSION);
+    strcpy(filename, string_to_filename(filename));
     if(remove(filename) == 0)
         printf("File %s successfully deleted.\n", filename);
     else
         printf("Could not delete file %s.\n", filename);
 }
 
-//non functional, problem with newline in buffer
+
 void edit_Note(){
     char filename[MAX_NAME_LENGTH];
     char command[MAX_NAME_LENGTH + 5];
@@ -192,8 +180,7 @@ void edit_Note(){
         fgets(filename, MAX_NAME_LENGTH, stdin);
         if(!strcmp(filename, "quit\n"))
             return;
-        filename[strlen(filename)-1] = 0;
-        strcat(filename, FILE_EXTENSION);
+        strcpy(filename, string_to_filename(filename));
         fp = fopen(filename, "r");
     }while(fp == NULL);
     strcpy(command, "gvim ");

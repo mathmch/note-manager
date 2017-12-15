@@ -1,5 +1,4 @@
-/* linked list implementation
-   to serve as collision avoidance in hash table*/
+/* linked list implementation*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
