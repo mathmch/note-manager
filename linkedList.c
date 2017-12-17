@@ -2,7 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "util.h"
+
+#define BUFFER_SIZE 255
 #define MAX_NAME_LENGTH 20
+#define HEADER_LINES 3
+
 // A linked list node
 struct Node
 {
@@ -83,19 +88,43 @@ void append(struct Node** head_ref, char* filename)
 // This function prints contents of linked list starting from head
 void printList(struct Node *node)
 {
+    FILE *fp;
+    int i;
+    char line[BUFFER_SIZE];
+    struct Node *unformatted = NULL;
     if(node == NULL)
         return;
-    int count = 0;
-    printf("\n-------------------------------------------------------------------------");
+    printf("-------------------------------------------------------------------------\n\n");
+    printf("Formatted Files:\n");
     while (node != NULL)
     {
-        if(count%5 == 0)
-            printf("\n\n");
-        printf("(%s)   ", node->filename);
-        node = node->next;
-        count++;
+        if(validate_file(node->filename)){
+            fp = fopen(node->filename, "r");
+            printf("%s ------> ", node->filename);
+            for(i = 0; i < HEADER_LINES; i++){
+                fgets(line, BUFFER_SIZE, fp);
+                line[strlen(line)-1] = 0;
+                printf("%s    ", line);
+            }
+            printf("\n");
+            fclose(fp);
+            node = node->next;
+        }
+        else{
+            append(&unformatted, node->filename);
+            node = node->next;
+        }
     }
-    printf("\n\n-------------------------------------------------------------------------\n");
+    printf("\nUnformatted Files:\n");
+    if(unformatted == NULL){
+        printf("\n-------------------------------------------------------------------------\n");
+        return;
+    }
+    while(unformatted != NULL){
+        printf("%s\n", unformatted->filename);
+        unformatted = unformatted->next;
+    }
+    printf("\n-------------------------------------------------------------------------\n");
 }
 
 void removeAt(struct Node** head_ref, int index){

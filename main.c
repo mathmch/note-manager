@@ -38,6 +38,7 @@ int main(void)
     printf("Enter your username: ");
     fgets(user, MAX_USER_NAME_LENGTH, stdin);
     do{
+        printf("-------------------------------------------------------------------------\n");
         choice = promp_user();
         execute_action(choice, user);
     }while (choice != EXIT_VAL);
@@ -117,11 +118,11 @@ void print_file(){
         strcpy(filename, string_to_filename(filename));
         fp = fopen(filename, "r");
     }
-    printf("-------------------------------------------------------------------------\n");
+    printf("\n\n");
     while(fgets(line, BUFFER_SIZE, fp) != NULL)
         printf("%s", line);
     if(feof(fp))
-        printf("\n-------------------------------------------------------------------------\n");
+        printf("\n\n");
     else
         printf("\nError\n");
     fclose(fp);
