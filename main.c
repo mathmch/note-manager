@@ -14,12 +14,6 @@
 #include "util.h"
 #include <stdlib.h>
 
-#define EXIT_VAL '5'
-#define BUFFER_SIZE 255
-#define MAX_USER_NAME_LENGTH 20
-#define FILE_EXTENSION ".txt"
-
-
 char promp_user();
 void execute_action(char choice, char* user);
 struct Node *create_list();

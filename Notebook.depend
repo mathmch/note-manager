@@ -15,13 +15,13 @@
 
 1512790403 d:\coding\c\notebook\linkedlist.h
 
-1513536990 source:c:\users\mathm\desktop\coding\c\note-manager\linkedlist.c
+1513539478 source:c:\users\mathm\desktop\coding\c\note-manager\linkedlist.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"util.h"
 
-1513538942 source:c:\users\mathm\desktop\coding\c\note-manager\main.c
+1513539118 source:c:\users\mathm\desktop\coding\c\note-manager\main.c
 	<dirent.h>
 	<stdio.h>
 	<string.h>
@@ -37,10 +37,11 @@
 
 1513310263 d:\coding\c\notebook\util.h
 
-1513533903 c:\users\mathm\desktop\coding\c\note-manager\util.h
+1513539530 c:\users\mathm\desktop\coding\c\note-manager\util.h
 
-1513538814 source:c:\users\mathm\desktop\coding\c\note-manager\util.c
+1513539461 source:c:\users\mathm\desktop\coding\c\note-manager\util.c
 	<string.h>
 	<stdio.h>
 	<stdlib.h>
+	"util.h"
 

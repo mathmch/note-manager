@@ -4,10 +4,6 @@
 #include <string.h>
 #include "util.h"
 
-#define BUFFER_SIZE 255
-#define MAX_NAME_LENGTH 20
-#define HEADER_LINES 3
-
 /* A linked list node */
 struct Node
 {

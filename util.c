@@ -1,10 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#define BUFFER_SIZE 255
-#define FILE_EXTENSION ".txt"
-#define HEADER_LINES 3
+#include "util.h"
 
 /* removes newline character and appends file name to string */
 char *string_to_filename(char *filename){
