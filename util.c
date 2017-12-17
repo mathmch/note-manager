@@ -6,12 +6,14 @@
 #define FILE_EXTENSION ".txt"
 #define HEADER_LINES 3
 
+/* removes newline character and appends file name to string */
 char *string_to_filename(char *filename){
     filename[strlen(filename)-1] = 0;
     strcat(filename, FILE_EXTENSION);
     return filename;
 }
 
+/* converts time string in format DoW Month Day hr:min:sec Year to Month_Day_Year */
 char *parse_time(char *filename, char *time){
     char *token = NULL;
     strtok(time, " ");
@@ -28,6 +30,7 @@ char *parse_time(char *filename, char *time){
     return filename;
 }
 
+/* returns 0 if file header is in the correct format, 1 if the format is off */
 int validate_file(char *filename){
     FILE *fp;
     char line[BUFFER_SIZE];

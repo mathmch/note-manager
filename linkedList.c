@@ -8,7 +8,7 @@
 #define MAX_NAME_LENGTH 20
 #define HEADER_LINES 3
 
-// A linked list node
+/* A linked list node */
 struct Node
 {
   char filename[MAX_NAME_LENGTH];
@@ -85,7 +85,7 @@ void append(struct Node** head_ref, char* filename)
     return;
 }
 
-// This function prints contents of linked list starting from head
+/* This function prints contents of linked list starting from head */
 void printList(struct Node *node)
 {
     FILE *fp;

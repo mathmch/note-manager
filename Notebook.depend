@@ -21,7 +21,7 @@
 	<string.h>
 	"util.h"
 
-1513536903 source:c:\users\mathm\desktop\coding\c\note-manager\main.c
+1513538942 source:c:\users\mathm\desktop\coding\c\note-manager\main.c
 	<dirent.h>
 	<stdio.h>
 	<string.h>
@@ -39,7 +39,7 @@
 
 1513533903 c:\users\mathm\desktop\coding\c\note-manager\util.h
 
-1513535585 source:c:\users\mathm\desktop\coding\c\note-manager\util.c
+1513538814 source:c:\users\mathm\desktop\coding\c\note-manager\util.c
 	<string.h>
 	<stdio.h>
 	<stdlib.h>

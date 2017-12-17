@@ -45,6 +45,7 @@ int main(void)
     return(0);
 }
 
+/* get a char that represents the option the user has selected */
 char promp_user(){
     char choice[2];
     printf("Options: \n     1: Create a new Note\n     2: View an existing Note\n     3: Delete an old Note\n     4: Edit an existing Note\n     5: Exit\n\n");
@@ -62,7 +63,7 @@ void execute_action(char choice, char *user){
         case '1':
             create_Note(user);
             break;
-        case '2':                       /* conditionally complete */
+        case '2':
             printList(head);
             print_file();
             break;
@@ -128,7 +129,7 @@ void print_file(){
     fclose(fp);
 }
 
-
+/* creates a new .txt file with the header created based on filename, username, and time created */
 void create_Note(char *user){
     time_t mytime;
     char *totalTime;
@@ -139,7 +140,7 @@ void create_Note(char *user){
     fgets(filename, MAX_NAME_LENGTH, stdin);
     if(!strcmp(filename, "\n")){
         totalTime = ctime(&mytime);
-        strcat(filename, parse_time(filename, totalTime));
+        parse_time(filename, totalTime);
     }
     else{
         strcpy(filename, string_to_filename(filename));
@@ -154,10 +155,12 @@ void create_Note(char *user){
     fclose(fp);
 }
 
+/* writes header into file */
 void populate_Note(FILE* fp, char *filename, char* author, char *time){
     fprintf(fp,"Title: %s\nAuthor: %sCreated: %s\nBody:", filename, author, time);
 }
 
+/* permanently deletes file */
 void delete_Note(){
     char filename[MAX_NAME_LENGTH];
     printf("Enter the name without extension of the Note you would like to delete: ");
@@ -169,7 +172,8 @@ void delete_Note(){
         printf("Could not delete file %s.\n", filename);
 }
 
-
+/* opens file in gvim
+   REQUIRES GVIM BE INSTALLED */
 void edit_Note(){
     char filename[MAX_NAME_LENGTH];
     char command[MAX_NAME_LENGTH + 5];
