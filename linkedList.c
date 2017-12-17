@@ -7,7 +7,7 @@
 /* A linked list node */
 struct Node
 {
-  char filename[MAX_NAME_LENGTH];
+  char filename[MAX_FILENAME_LENGTH];
   struct Node *next;
 };
 
@@ -19,12 +19,12 @@ void push(struct Node** head_ref, char *filename)
     struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
 
     /* 2. put in the data  */
-    strncpy(new_node->filename, filename, MAX_NAME_LENGTH+1);
+    strncpy(new_node->filename, filename, MAX_FILENAME_LENGTH+1);
     /* 3. Make next of new node as head */
     new_node->next = (*head_ref);
 
     /* 4. move the head to point to the new node */
-    (*head_ref)    = new_node;
+    (*head_ref) = new_node;
 }
 
 /* Given a node prev_node, insert a new node after the given
@@ -41,7 +41,7 @@ void insertAt(struct Node** head_ref, int index, char *filename)
     struct Node* new_node =(struct Node*) malloc(sizeof(struct Node));
 
     /* 3. put in the data  */
-    strncpy(new_node->filename, filename, MAX_NAME_LENGTH);
+    strncpy(new_node->filename, filename, MAX_FILENAME_LENGTH);
 
     /* 4. Make next of new node as next of prev_node */
     new_node->next = (*head_ref)->next;
@@ -60,7 +60,7 @@ void append(struct Node** head_ref, char* filename)
     struct Node *last = *head_ref;  /* used in step 5*/
 
     /* 2. put in the data  */
-    strncpy(new_node->filename, filename, MAX_NAME_LENGTH);
+    strncpy(new_node->filename, filename, MAX_FILENAME_LENGTH);
     /* 3. This new node is going to be the last node, so make next of
           it as NULL*/
     new_node->next = NULL;
@@ -85,8 +85,8 @@ void append(struct Node** head_ref, char* filename)
 void printList(struct Node *node)
 {
     FILE *fp;
-    int i;
     char line[BUFFER_SIZE];
+    int length, count, i;
     struct Node *unformatted = NULL;
     if(node == NULL)
         return;
@@ -95,12 +95,25 @@ void printList(struct Node *node)
     while (node != NULL)
     {
         if(validate_file(node->filename)){
+            count = 0;
             fp = fopen(node->filename, "r");
-            printf("%s ------> ", node->filename);
+            printf("%s ", node->filename);
+            length = strlen(node->filename);
+            while(MAX_FILENAME_LENGTH - length - count > 0){
+                printf("-");
+                count++;
+            }
+            printf("> ");
             for(i = 0; i < HEADER_LINES; i++){
                 fgets(line, BUFFER_SIZE, fp);
                 line[strlen(line)-1] = 0;
-                printf("%s    ", line);
+                length = strlen(line);
+                if(length < 15)
+                    printf("%s\t\t ", line);
+                else if(length < 25)
+                    printf("%s\t ", line);
+                else
+                    printf("%s ", line);
             }
             printf("\n");
             fclose(fp);
