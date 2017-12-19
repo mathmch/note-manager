@@ -113,7 +113,7 @@ void print_file(){
         strcpy(filename, string_to_filename(filename));
         fp = fopen(filename, "r");
     }
-    printf("\n\n");
+    system("cls");
     while(fgets(line, BUFFER_SIZE, fp) != NULL)
         printf("%s", line);
     if(feof(fp))
