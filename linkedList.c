@@ -87,6 +87,7 @@ void printList(struct Node *node)
     FILE *fp;
     char line[BUFFER_SIZE];
     int length, count, i;
+    char name[20], size[4];
     struct Node *unformatted = NULL;
     if(node == NULL)
         return;
@@ -107,13 +108,10 @@ void printList(struct Node *node)
             for(i = 0; i < HEADER_LINES; i++){
                 fgets(line, BUFFER_SIZE, fp);
                 line[strlen(line)-1] = 0;
-                length = strlen(line);
-                if(length < 15)
-                    printf("%s\t\t ", line);
-                else if(length < 25)
-                    printf("%s\t ", line);
-                else
-                    printf("%s ", line);
+                /* Prints out the file information left justified in blocks the size of max file size +1 */
+                snprintf(size, sizeof(size), "%d", MAX_FILENAME_LENGTH+1);
+                snprintf(name, sizeof(name), "%s%s%s", "%-", size, "s");
+                printf(name, line);
             }
             printf("\n");
             fclose(fp);

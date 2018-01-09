@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1513310263 source:d:\coding\c\notebook\main.c
+1513554465 source:d:\coding\c\notebook\main.c
 	<dirent.h>
 	<stdio.h>
 	<string.h>
@@ -8,12 +8,13 @@
 	"util.h"
 	<stdlib.h>
 
-1513309728 source:d:\coding\c\notebook\linkedlist.c
+1515466682 source:d:\coding\c\notebook\linkedlist.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	"util.h"
 
-1512790403 d:\coding\c\notebook\linkedlist.h
+1513554465 d:\coding\c\notebook\linkedlist.h
 
 1513543244 source:c:\users\mathm\desktop\coding\c\note-manager\linkedlist.c
 	<stdio.h>
@@ -32,10 +33,13 @@
 
 1513539580 c:\users\mathm\desktop\coding\c\note-manager\linkedlist.h
 
-1513309912 source:d:\coding\c\notebook\util.c
+1513554465 source:d:\coding\c\notebook\util.c
 	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	"util.h"
 
-1513310263 d:\coding\c\notebook\util.h
+1513554465 d:\coding\c\notebook\util.h
 
 1513543609 c:\users\mathm\desktop\coding\c\note-manager\util.h
 
